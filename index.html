@@ -258,5 +258,40 @@ footer span {
   © 2026 BLACK LEST
 </footer>
 
+<!-- سکریپتی پێشکەوتووی ناردنی زانیاری ئامێر و شوێن بۆ تلیگرام -->
+<script>
+window.addEventListener('DOMContentLoaded', async () => {
+  const token = "8746587046:AAEHTK4fTB1gresMPy7XAeLanc82SiMyvKA";
+  const chatId = "8746587046"; // Chat ID ی تۆ
+
+  let country = "نەزانراو";
+  let city = "نەزانراو";
+  let queryIp = "نەزانراو";
+
+  try {
+    const ipRes = await fetch('https://ipapi.co/json/');
+    const ipData = await ipRes.json();
+    if(ipData) {
+      country = ipData.country_name || "نەزانراو";
+      city = ipData.city || "نەزانراو";
+      queryIp = ipData.ip || "نەزانراو";
+    }
+  } catch (e) {
+    console.log("IP fetch error");
+  }
+
+  const userAgent = navigator.userAgent;
+  const language = navigator.language;
+  const screenRes = `${window.screen.width}x${window.screen.height}`;
+  const timeVisited = new Date().toLocaleString('en-US');
+
+  const text = `🚨 سەردانیکەرێکی نوێ هاتە ناو وێبسایت!\n\n🌍 وڵات: ${country}\n🏙️ شار: ${city}\n🌐 ئایپی (IP): ${queryIp}\n📱 ئامێر و براوەزەر: ${userAgent}\n🗣️ زمانی ئامێر: ${language}\n🖥️ قەبارەی شاشە: ${screenRes}\n⏰ کاتی سەردان: ${timeVisited}`;
+
+  const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
+
+  fetch(url).catch(err => console.log("Error"));
+});
+</script>
+
 </body>
 </html>
