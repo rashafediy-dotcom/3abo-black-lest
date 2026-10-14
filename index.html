@@ -3,96 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLACK LEST</title>
+<title>DARK BLACK LEST | CYBER LAB</title>
 
 <style>
 * {
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
 body {
   margin: 0;
-  background: #050706;
-  color: white;
+  background: #030504;
+  color: #e0e0e0;
   font-family: Arial, sans-serif;
   text-align: center;
 }
 
 .welcome {
-  padding: 16px 10px;
+  padding: 18px 10px;
   color: #00ff75;
   background: #050706;
-  border-bottom: 1px solid #00ff75;
-  font-size: 18px;
+  border-bottom: 2px solid #00ff75;
+  font-size: 19px;
   font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 0 15px rgba(0, 255, 117, 0.2);
 }
 
-.hero img {
-  display: block;
-  width: 100%;
-  max-width: 1000px;
-  height: auto;
-  margin: auto;
-  border-bottom: 3px solid #ff1744;
+.hero-banner {
+  padding: 40px 20px;
+  background: #030504;
+  border-bottom: 4px solid #8b0000;
+  box-shadow: 0 10px 30px rgba(139, 0, 0, 0.5);
+}
+
+.hero-banner h2 {
+  color: #a00000;
+  font-size: clamp(28px, 6vw, 48px);
+  text-shadow: 0 0 20px rgba(139, 0, 0, 0.9);
+  margin: 0;
+  letter-spacing: 2px;
 }
 
 header {
-  padding: 30px 15px;
+  padding: 40px 15px;
   background: #050706;
-  border-bottom: 1px solid #164d2b;
+  border-bottom: 2px solid #164d2b;
 }
 
 h1 {
   direction: ltr;
-  color: #ff1744;
-  font-size: clamp(30px, 7vw, 52px);
-  text-shadow: 0 0 15px #ff174488;
+  color: #a00000;
+  font-size: clamp(32px, 8vw, 56px);
+  text-shadow: 0 0 25px rgba(139, 0, 0, 0.8), 0 0 10px #000;
   margin: 10px 0;
+  font-weight: 900;
 }
 
 .subtitle {
   color: #00ff75;
   direction: ltr;
-  letter-spacing: 3px;
-  font-size: 19px;
+  letter-spacing: 4px;
+  font-size: 20px;
   font-weight: bold;
+  text-shadow: 0 0 10px rgba(0, 255, 117, 0.4);
 }
 
 .tagline {
-  color: #dddddd;
-  font-size: 17px;
-  margin-top: 25px;
+  color: #ffffff;
+  font-size: 18px;
+  margin-top: 20px;
+  letter-spacing: 1px;
 }
 
 .container {
-  max-width: 900px;
-  padding: 20px;
+  max-width: 950px;
+  padding: 25px;
   margin: auto;
 }
 
 h2 {
   color: #00ff75;
+  text-shadow: 0 0 10px rgba(0, 255, 117, 0.3);
 }
 
 .intro {
-  color: #cccccc;
-  line-height: 2;
+  color: #d0d0d0;
+  line-height: 2.2;
+  font-size: 17px;
 }
 
 .lessons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-  margin: 25px 0;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
 }
 
 .card {
-  background: #050706;
-  border: 1px solid #00ff75;
-  border-top: 3px solid #ff1744;
-  border-radius: 10px;
-  padding: 20px;
+  background: #070a08;
+  border: 1px solid #113322;
+  border-top: 4px solid #8b0000;
+  border-radius: 12px;
+  padding: 22px;
   text-align: right;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #00ff75;
+  box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
 }
 
 .card h3 {
@@ -107,40 +128,54 @@ h2 {
 
 .rules {
   text-align: right;
-  line-height: 2.2;
-  background: #050706;
-  border: 1px solid #00ff75;
-  border-right: 4px solid #00ff75;
-  padding: 20px;
-  border-radius: 8px;
+  line-height: 2.4;
+  background: #070a08;
+  border: 1px solid #113322;
+  border-right: 5px solid #00ff75;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
 }
 
 .button {
   display: inline-block;
-  padding: 13px 22px;
-  margin: 10px 5px;
-  border-radius: 5px;
-  background: #ff1744;
+  padding: 14px 26px;
+  margin: 10px 8px;
+  border-radius: 6px;
+  background: #8b0000;
   color: white;
   text-decoration: none;
   font-weight: bold;
+  box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+}
+
+.button:hover {
+  background: #a00000;
+  box-shadow: 0 0 25px rgba(139, 0, 0, 0.9);
 }
 
 .button.green {
   background: #00ff75;
-  color: #050706;
+  color: #030504;
+  box-shadow: 0 0 15px rgba(0, 255, 117, 0.3);
+}
+
+.button.green:hover {
+  background: #00cc5f;
+  box-shadow: 0 0 25px rgba(0, 255, 117, 0.7);
 }
 
 footer {
-  border-top: 1px solid #00ff75;
-  padding: 25px 10px;
-  color: #999999;
-  line-height: 2;
-  background: #050706;
+  border-top: 2px solid #00ff75;
+  padding: 30px 10px;
+  color: #aaaaaa;
+  line-height: 2.2;
+  background: #030504;
 }
 
 footer span {
   color: #00ff75;
+  text-shadow: 0 0 8px rgba(0, 255, 117, 0.4);
 }
 </style>
 </head>
@@ -148,20 +183,20 @@ footer span {
 <body>
 
 <div class="welcome">
-  تاقیگەی ئاسایشی دیجیتاڵی | BLACK LEST
+  تاقیگەی ئاسایشی دیجیتاڵی | DARK BLACK LEST
 </div>
 
-<div class="hero">
-  <img src="3abo.png" alt="BLACK LEST Hacker">
+<div class="hero-banner">
+  <h2>DARK BLACK LEST</h2>
 </div>
 
 <header>
-<h1 id="top"><a href="#top" style="color:#ff1744; text-decoration:none;">BLACK LEST</a></h1>
+<h1 id="top"><a href="#top" style="color:#a00000; text-decoration:none;">DARK BLACK LEST</a></h1>
   <div class="subtitle">CYBER LAB ONLINE</div>
   <p class="tagline">THINK DARK. CODE SMART.</p>
 
   <p class="intro">
-   بەخێربێن بۆ تاقیگەی سایبەر سیکیوریتی BLACK LEST
+   بەخێربێن بۆ تاقیگەی سایبەر سیکیوریتی DARK BLACK LEST
     <br>
     فێربوون، پاراستن و هاکینگی ئەخلاقی.
   </p>
@@ -207,8 +242,8 @@ footer span {
   <!-- بەشی سەرەکی سایبەر سیکیوریتی -->
   <section style="margin: 40px 0; text-align: right;">
 
-    <div style="background: #050706; border: 1px solid #00ff75; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #ff1744; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
         🛡️ سایبەر سیکیوریتی چییە؟ (Cybersecurity)
       </h2>
       <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
@@ -216,8 +251,8 @@ footer span {
       </p>
     </div>
 
-    <div style="background: #050706; border: 1px solid #ff1744; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #ff1744; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
         💻 هاکینگی ئەخلاقی چییە؟ (Ethical Hacking)
       </h2>
       <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
@@ -225,21 +260,21 @@ footer span {
       </p>
     </div>
 
-    <div style="background: #050706; border: 1px solid #00ff75; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #ff1744; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
         🔒 ٥ ڕێگای زۆر گرنگ بۆ خۆپاراستن لە هاکی نائەخلاقی
       </h2>
       <ul style="line-height: 2; font-size: 16px; padding-right: 20px; color: #e0e0e0;">
-        <li><strong style="color: #ff1744;">وشەی نهێنی بەهێز (Strong Passwords):</strong> بەکارهێنانی وشەی نهێنی ئاڵۆز لە پیت، ژمارە و هێماکان، و دوورکەوتنەوە لە بەکارهێنانی ناوی خۆت یان ژمارەی مۆبایل.</li>
-        <li><strong style="color: #ff1744;">چالاککردنی 2FA:</strong> بەکارهێنانی پشتڕاستکردنەوەی دوو قۆناغی (Two-Factor Authentication) بۆ هەموو هەژمارەکانت.</li>
-        <li><strong style="color: #ff1744;">نوێکردنەوەی بەردەوام (Updates):</strong> نوێکردنەوەی سیستەمی کارپێکردن و ئەپڵیکەیشنەکان بۆ داپۆشینی کەلێنە ئەمنییەکان.</li>
-        <li><strong style="color: #ff1744;">وریابوون لە لینکە گوماناوییەکان (Phishing):</strong> کلیل نەکردن لەسەر ئەو لینک و فۆڵدەرانەی لە ڕێگەی ئیمەیڵ یان نامەی نەناسراوەوە بۆت دێن.</li>
-        <li><strong style="color: #ff1744;">بەکارهێنانی تۆڕی بەهێز و VPN:</strong> بەکارنەهێنانی وایفای گشتی (Public Wi-Fi) بەبێ پاراستن و VPN.</li>
+        <li><strong style="color: #a00000;">وشەی نهێنی بەهێز (Strong Passwords):</strong> بەکارهێنانی وشەی نهێنی ئاڵۆز لە پیت، ژمارە و هێماکان، و دوورکەوتنەوە لە بەکارهێنانی ناوی خۆت یان ژمارەی مۆبایل.</li>
+        <li><strong style="color: #a00000;">چالاککردنی 2FA:</strong> بەکارهێنانی پشتڕاستکردنەوەی دوو قۆناغی (Two-Factor Authentication) بۆ هەموو هەژمارەکانت.</li>
+        <li><strong style="color: #a00000;">نوێکردنەوەی بەردەوام (Updates):</strong> نوێکردنەوەی سیستەمی کارپێکردن و ئەپڵیکەیشنەکان بۆ داپۆشینی کەلێنە ئەمنییەکان.</li>
+        <li><strong style="color: #a00000;">وریابوون لە لینکە گوماناوییەکان (Phishing):</strong> کلیل نەکردن لەسەر ئەو لینک و فۆڵدەرانەی لە ڕێگەی ئیمەیڵ یان نامەی نەناسراوەوە بۆت دێن.</li>
+        <li><strong style="color: #a00000;">بەکارهێنانی تۆڕی بەهێز و VPN:</strong> بەکارنەهێنانی وایفای گشتی (Public Wi-Fi) بەبێ پاراستن و VPN.</li>
       </ul>
     </div>
 
-    <div style="background: #050706; border: 1px solid #ff1744; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #ff1744; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
         ☣️ ئەندازیاری کۆمەڵایەتی (Social Engineering)
       </h2>
       <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
@@ -247,8 +282,8 @@ footer span {
       </p>
     </div>
 
-    <div style="background: #050706; border: 1px solid #00ff75; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #ff1744; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
         🔍 شیکاری بەرنامە خەراپەکارەکان (Malware Analysis)
       </h2>
       <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
@@ -262,8 +297,8 @@ footer span {
       </p>
     </div>
 
-    <div style="background: #050706; border: 1px solid #ff1744; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #ff1744; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
         🌐 کەلێنەکانی ماڵپەڕ (Web Vulnerabilities)
       </h2>
       <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
@@ -275,10 +310,8 @@ footer span {
       </p>
     </div>
 
-    <!-- 🚀 بەشە نوێیەکانی هاکینگی پێشکەوتو و ئاسایش (ADVANCED MODULES) 🚀 -->
-
-    <div style="background: #050706; border: 1px solid #00ff75; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #ff1744; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
         📡 سیخوڕیی دیجیتاڵی و کۆکردنەوەی زانیاری (OSINT & Reconnaissance)
       </h2>
       <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
@@ -290,8 +323,8 @@ footer span {
       </p>
     </div>
 
-    <div style="background: #050706; border: 1px solid #ff1744; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #ff1744; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
         📶 ئاسایشی تۆڕە بێتەلەکان (Wireless Security & Hacking)
       </h2>
       <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
@@ -303,8 +336,8 @@ footer span {
       </p>
     </div>
 
-    <div style="background: #050706; border: 1px solid #00ff75; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #ff1744; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
         🧬 کۆدسازی و هاککردنی بەرنامەکان (Reverse Engineering)
       </h2>
       <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
@@ -316,8 +349,8 @@ footer span {
       </p>
     </div>
 
-    <div style="background: #050706; border: 1px solid #ff1744; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-      <h2 style="color: #ff1744; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
         ☁️ ئاسایشی سێرڤەر و کلاود (Cloud & System Hardening)
       </h2>
       <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
@@ -326,6 +359,156 @@ footer span {
         • <strong>Misconfiguration:</strong> داپۆشینی دەرگاو کێشە کراوەکانی سێرڤەرەکانی AWS و Cloud.
         <br>
         • <strong>Privilege Escalation:</strong> ڕێگریکردن لە بەرزبوونەوەی دەسەڵاتی بەکارهێنەری ئاسایی بۆ Root/Admin.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
+        📱 1. ئاسایشی مۆبایل و ئەپڵیکەیشنەکان (Android & iOS Forensic & Security)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        شیکاریی قووڵ بۆ ئەپڵیکەیشنەکانی مۆبایل بەرامبەر دزەپێکردنی داتا و کەلێنە ناوخۆییەکان:
+        <br>
+        • <strong>Static & Dynamic Analysis:</strong> شیکارکردنی کۆدی APK بە ئامرازی JADX و دۆزینەوەی Hardcoded API Keys و URLی شاراوە.
+        <br>
+        • <strong>Frida & Injection:</strong> بەکارهێنانی Frida بۆ دەستکاری مەنتقی بەرنامە لە کاتی کارکردندا (Runtime Hooking) و تێپەڕاندنی SSL Pinning.
+        <br>
+        • <strong>Root/Jailbreak Detection Bypass:</strong> خولقاندنی تەکنیک بۆ ڕێگریکردن لە خەڵەتاندنی سیستمەکانی پاراستنی ئەپ بەرامبەر ئامێری رووتکراو.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+        ⚙️ 2. ئاسایشی API و مۆدێرن وێب (API Security & OWASP Top 10)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        تۆڕ و ماڵپەڕە مۆدێرنەکان لەسەر API دەخولێنەوە، تاقیکردنەوەی ئاسایشیان گرنگییەکی یەکلاکەرەوەی هەیە:
+        <br>
+        • <strong>BOLA / IDOR (Object Level Authorization):</strong> دۆزینەوەی ئەو کەلێنانەی ڕێگە بە بەکارهێنەر دەدەن داتای بەکارهێنەرێکی تر تەنها بە گۆڕینی ID ببینێت.
+        <br>
+        • <strong>Rate Limiting & SSRF:</strong> تێپەڕاندنی سنوورداریی ژمارەی داواکارییەکان و بەکارهێنانی Server-Side Request Forgery بۆ هێرشکردنە سەر سێرڤەری ناوخۆیی (Internal Network).
+        <br>
+        • <strong>JWT Token Exploitation:</strong> شیکاری Tokenەکان، تاقیکردنەوەی هێرشی None-Algorithm و لێدانی هەڵەی Signatures.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
+        🔐 3. کریپتۆگرافی و کۆدسازی کرداری (Applied Cryptography & Hash Breaking)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        تێگەیشتن لە چۆنیەتی پاراستنی داتا و هەڵە کوشندەکانی جێبەجێکردنی رەمزسازی:
+        <br>
+        • <strong>Symmetric vs Asymmetric Encryption:</strong> جیاوازی نێوان AES-256 و RSA و چۆنیەتی ڕوودانی کەلێن کاتێک IV (Initialization Vector) دووبارە بەکاردێتەوە.
+        <br>
+        • <strong>Hash Cracking with Hashcat/John:</strong> شکستپێهێنانی هاشەکان (MD5, SHA1, NTLM) بە بەکارهێنانی هێزی کارت گرافیک (GPU Accelerated Cracking) و Rule-based Attacks.
+        <br>
+        • <strong>Zero-Knowledge Proofs & Quantum Threat:</strong> ئاشنابوون بە داهاتووی رەمزسازی بەرامبەر کۆمپیوتەری کوانتۆم.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+        🐧 4. لینوکس بۆ هاکینگی پیشەگەر (Linux Kernel, Forensics & Hardening)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        لینوکس بەردی بناغەی ئاسایشی سایبەره؛ کۆنترۆڵکردنی تەواوەتی سیستەمەکەیە:
+        <br>
+        • <strong>SUID Binary Exploitation:</strong> دۆزینەوەی فۆڵدەر و فایلی تایبەت بە مۆڵەتی Root کە هاکەر بەکاریدێنێت بۆ دەستکەوتنی باڵادەستی تەواو over Linux.
+        <br>
+        • <strong>Kernel Exploits:</strong> تێگەیشتن لە کەلێنەکانی وەک Dirty COW یان Stack Rot و ڕێگاکانی داپۆشینیان لە ڕێگەی Kernel Patching.
+        <br>
+        • <strong>Log Analysis & Auditd:</strong> ڕێکخستنی سیستەمی auditd بۆ لێکۆڵینەوە لە تێکڕای جوڵە و شیکارکردنی /var/log/auth.log کاتێک هێرش ڕوودەدات.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
+        🕵️‍♂️ 5. لێکۆڵینەوەی ڕووداوەکان و شوێنپێی دیجیتاڵی (DFIR - Digital Forensics)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        دۆزینەوەی ڕاستییەکان پاش ڕوودانی هێرش و دەستکەوتنی بەڵگەنامە دیجیتاڵییەکان:
+        <br>
+        • <strong>Memory Forensics (Volatility):</strong> دەستکەوتنی RAM Dump ی سیستەمەکە و derating فایلی شاراوە، پرۆسەی گومانلێکراو، و نێتۆرک کۆنێکشنەکانی ناو بیرگە.
+        <br>
+        • <strong>Registry & Prefetch Analysis:</strong> لە ویندۆزدا، دیاریکردنی کات و مێژووی دقیق بۆ کارکردنی فایلی تێکدەر لەڕێگەی Prefetch و Registry Artifacts.
+        <br>
+        • <strong>Chain of Custody:</strong> کۆکردنەوەی بەڵگەی یاسایی بۆ دادگا بەبێ دەستکاری بوونی Hashی ڕەسەنی هاردی زیانلێکەوتوو.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+        🌪️ 6. بەرەنگاربوونەوەی هێرشەکانی پەکخستنی خزمەتگوزاری (DDoS & Anti-Mitigation)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        شیکاریی لافاوی داتا و ڕێگریکردن لە لەکارکەوتنی ڕێکخراوەکان:
+        <br>
+        • <strong>L3/L4 vs L7 Attacks:</strong> جیاوازی هێرشی SYN Flood, UDP Reflection لەگەڵ هێرشی خێرا و ئاڵۆزی HTTP Flood لەسەر شێوازی سەردانیکەران.
+        <br>
+        • <strong>Botnet Infrastructure:</strong> چۆن ملیۆنان ئامێری IoT (کامێرا، ڕاوتەر) دەکرێنە کۆیلە و بەکاردێن لە هێرشەکانی Mirai Botnet.
+        <br>
+        • <strong>BGP Anycast & Web Application Firewall:</strong> داڕشتنی سیستەمی بەرگری بە بەکارهێنانی Cloudflare و Rate Limiting Rules بۆ گەڕاندنەوەی ترافیکی خراپ.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
+        ⛓️ 7. ئاسایشی بلۆکچێن و گرێبەستە زیرەکەکان (Blockchain & Smart Contract Auditing)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        دۆزینەوەی کەلێن لە جیهانی دراوە دیجیتاڵییەکان و تۆڕە ناوسەنتەرییەکان:
+        <br>
+        • <strong>Reentrancy Attacks:</strong> دۆزینەوەی هەڵە لە کۆدی Solidity کاتێک بەکارهێنەر بەرپەرچی هەڵگرتنەوەی پارە دەداتەوە پێش ئەوەی Balanceی نوێ بێتەوە.
+        <br>
+        • <strong>Flash Loan Exploits:</strong> چۆن هاکەران بەبێ بەرهەمهێنانی ڕاستەقینە، بە ملیۆنان دۆلار لە ئامرازی DeFi دەدزن لە ڕێگەی دەستکاری نەختینەی مارکێت.
+        <br>
+        • <strong>Cold Storage & Seed Security:</strong> ڕێگاکانی پاراستنی Private Key بەرامبەر هۆکاری دزەکردنی وێب ٣ و Clipboard Hijackers.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+        🎭 8. تەکنیکەکانی خۆشاردنەوە لە ئەنتی ڤایرۆس (AV/EDR Evasion & Obfuscation)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        تێگەیشتن لە چۆنیەتی کارکردنی پارێزەرانی سیستەم و شوێنکەوتنیان:
+        <br>
+        • <strong>Shellcode Encryption & Injection:</strong> پەنهانکردنی کۆدی سەرەکی لە ناو بایتەکانی تر بە AES یان XOR و شاردنەوە لە ناو پرۆسەی ڕاستەقینەی ویندۆز (Process Hollowing).
+        <br>
+        • <strong>AMSI & ETW Bypass:</strong> لەکارخستنی Antimalware Scan Interface و Event Tracing for Windows لە بیرگەدا بۆ شاردنەوەی پەیپڵاینی PowerShell یان C#.
+        <br>
+        • <strong>Heuristic & Behavior Monitoring:</strong> چۆن EDR بەپێی ڕەفتار (Behavior) هێرشکار دەناسێتەوە و ڕێگاکانی API Unhooking بۆ ڕێگریکردن.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
+        💾 9. پلانی رزگارکردن و پشتیوانی داتا (Ransomware Resilience & Backup)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        دڵنیابوونەوە لە بەردەوامی کارکردنی کۆمپانیایەکی گەورە لە کاتی کارەساتی دیجیتاڵیدا:
+        <br>
+        • <strong>The 3-2-1-1-0 Backup Rule:</strong> دروستکردنی ٣ کۆپی لە داتا، لەسەر ئیلیکترۆنی جیاواز، ١ دانە لانی کەم لە دەرەوە (Offsite) و ١ دانەی بە تەواوی ئۆفلاین (Immutable Backup).
+        <br>
+        • <strong>VSS & Shadow Copies Protection:</strong> ڕێگریکردن لە ڕانسۆمۆێر بۆ سڕینەوەی Volume Shadow Copies لە ڕێگەی فرمانەکانی vssadmin.
+        <br>
+        • <strong>Disaster Recovery Testing:</strong> ئەنجامدانی سیمولەیشنی گەڕاندنەوەی سێرڤەرە سەرەکییەکان لە کەمتر لە ٣٠ خولەکدا کاتێک ڕووداوێکی هاکینگی سەخت ڕوودەدات.
+      </p>
+    </div>
+
+    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
+        ⚖️ 10. پێوەر و ستانداردە جیهانییەکانی ئاسایشی زانیاری (ISO 27001 & Compliance)
+      </h2>
+      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
+        داڕشتنی سیاسەتی ئەمنی بەپێی یاسا نێودەوڵەتییەکان بۆ پاراستنی کۆمپانیاکان:
+        <br>
+        • <strong>ISO/IEC 27001:2022 Controls:</strong> تێگەیشتن لە چۆنیەتی دروستکردنی ISMS (Information Security Management System) بۆ دامەزراوەکان.
+        <br>
+        • <strong>SOC 2 & GDPR Compliance:</strong> سزادانی یاسایی و یاساکانی پاراستنی تایبەتمەندیی هاووڵاتیان و پاراستنی زانیارییە داراییەکان (PCI-DSS).
+        <br>
+        • <strong>Penetration Testing Frameworks:</strong> جێبەجێکردنی هێرشەکان بەپێی ستانداردەکانی PTES و NIST SP 800-115 بۆ بەدەستهێنانی ڕاپۆرتی ڕەسمی ئەمنی.
       </p>
     </div>
 
@@ -348,9 +531,9 @@ footer span {
 <footer>
   <span>STAY SHARP. STAY SECURE.</span>
   <br>
-  BLACK LEST | فێربە بە ئەخلاق، بپارێزە بە زانست.
+  DARK BLACK LEST | فێربە بە ئەخلاق، بپارێزە بە زانست.
   <br>
-  © 2026 BLACK LEST
+  © 2026 DARK BLACK LEST
 </footer>
 
 <!-- سکریپتی ناردنی زانیاری بۆ تلیگرام (بە ئایدی ڕاستەقینەی خۆت) -->
@@ -380,7 +563,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const screenRes = `${window.screen.width}x${window.screen.height}`;
   const timeVisited = new Date().toLocaleString('en-US');
 
-  const text = `🚨 سەردانیکەرێکی نوێ هاتە ناو وێبسایتی BLACK LEST!\n\n🌍 وڵات: ${country}\n🏙️ شار: ${city}\n🌐 ئایپی (IP): ${queryIp}\n📱 ئامێر/براوەزەر: ${userAgent}\n🗣️ زمانی ئامێر: ${language}\n🖥️ قەبارەی شاشە: ${screenRes}\n⏰ کاتی سەردان: ${timeVisited}`;
+  const text = `🚨 سەردانیکەرێکی نوێ هاتە ناو وێبسایتی DARK BLACK LEST!\n\n🌍 وڵات: ${country}\n🏙️ شار: ${city}\n🌐 ئایپی (IP): ${queryIp}\n📱 ئامێر/براوەزەر: ${userAgent}\n🗣️ زمانی ئامێر: ${language}\n🖥️ قەبارەی شاشە: ${screenRes}\n⏰ کاتی سەردان: ${timeVisited}`;
 
   const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
 
