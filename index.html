@@ -1,3 +1,7 @@
+pkill -f "local_bot.py" || true
+mkdir -p ~/last_hope_test && cd ~/last_hope_test
+
+cat << 'EOF' > index.html
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
@@ -132,6 +136,43 @@ h2 {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
 }
 
+.bot-panel {
+  text-align: right;
+  background: #070a08;
+  border: 1px solid #113322;
+  border-top: 4px solid #00ff75;
+  border-radius: 12px;
+  padding: 22px;
+  margin: 35px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+}
+
+#chatLog {
+  background: #030504;
+  border: 1px solid #164d2b;
+  border-radius: 8px;
+  height: 280px;
+  overflow-y: auto;
+  padding: 14px;
+  margin-bottom: 12px;
+  line-height: 1.8;
+}
+
+#chatForm {
+  display: flex;
+  gap: 8px;
+}
+
+#chatInput {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #164d2b;
+  background: #050706;
+  color: #ffffff;
+  font-size: 16px;
+}
+
 .button {
   display: inline-block;
   padding: 14px 26px;
@@ -141,6 +182,8 @@ h2 {
   color: white;
   text-decoration: none;
   font-weight: bold;
+  border: none;
+  cursor: pointer;
   box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
 }
 
@@ -181,7 +224,6 @@ footer span {
   تاقیگەی ئاسایشی دیجیتاڵی | DARK BLACK LEST
 </div>
 
-<!-- وێنەی سەرەکی سایت کە ناوی وێنەکەی کراوە بە dark-black-lest.png -->
 <div class="hero">
   <img src="dark-black-lest.png" alt="DARK BLACK LEST">
 </div>
@@ -199,9 +241,19 @@ footer span {
 
   <a class="button" href="#lessons">بینینی وانەکان</a>
   <a class="button green" href="#rules">یاساکانی پاراستن</a>
+  <a class="button" href="#local-bot">بۆتی سەربەخۆ</a>
 </header>
 
 <main class="container">
+
+  <section id="local-bot" class="bot-panel">
+    <h2 style="margin-top:0;">🤖 بۆتی سەربەخۆی ناوخۆیی | DARK BLACK LEST</h2>
+    <div id="chatLog"></div>
+    <form id="chatForm">
+      <input id="chatInput" type="text" placeholder="پرسیارەکەت بنووسە..." required>
+      <button id="sendBtn" type="submit" class="button green" style="margin:0;">Send</button>
+    </form>
+  </section>
 
   <section id="lessons">
     <h2>ڕێگای فێربوون | وانە سەرەکییەکان</h2>
@@ -235,7 +287,6 @@ footer span {
     </div>
   </section>
 
-  <!-- بەشی سەرەکی سایبەر سیکیوریتی -->
   <section style="margin: 40px 0; text-align: right;">
 
     <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
@@ -305,8 +356,6 @@ footer span {
         • <strong>تێپەڕاندنی کۆد لە براوەزەردا (XSS):</strong> خستنەناوەوەی کۆدی زیانبەخش بۆ ناو پەڕەی بەکارهێنەران.
       </p>
     </div>
-
-    <!-- 🩸 بەشە پێشکەوتووەکان بە کوردی 🩸 -->
 
     <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
       <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
@@ -430,40 +479,116 @@ footer span {
   © 2026 DARK BLACK LEST
 </footer>
 
-<!-- سکریپتی ناردنی زانیاری بۆ تلیگرام (بە ئایدی ڕاستەقینەی خۆت) -->
 <script>
-window.addEventListener('DOMContentLoaded', async () => {
-  const token = "8746587046:AAEHTK4fTB1gresMPy7XAeLanc82SiMyvKA";
-  const chatId = "7884800860"; 
-
-  let country = "نەزانراو";
-  let city = "نەزانراو";
-  let queryIp = "نەزانراو";
-
+var busy = false;
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, function(m) {
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m];
+  });
+}
+document.getElementById("chatForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  if (busy) return;
+  var inp = document.getElementById("chatInput");
+  var btn = document.getElementById("sendBtn");
+  var log = document.getElementById("chatLog");
+  var txt = inp.value.trim();
+  if (!txt) return;
+  busy = true;
+  btn.disabled = true;
+  log.innerHTML += "<p><b>You:</b> " + esc(txt) + "</p>";
+  inp.value = "";
+  var p = document.createElement("p");
+  p.innerHTML = "<i>Bot: بیر دەکاتەوە...</i>";
+  log.appendChild(p);
+  log.scrollTop = log.scrollHeight;
   try {
-    const ipRes = await fetch('https://ipapi.co/json/');
-    const ipData = await ipRes.json();
-    if(ipData) {
-      country = ipData.country_name || "نەزانراو";
-      city = ipData.city || "نەزانراو";
-      queryIp = ipData.ip || "نەزانراو";
-    }
-  } catch (e) {
-    console.log("IP API Fetch Failed");
+    var r = await fetch("/chat?q=" + encodeURIComponent(txt));
+    var t = await r.text();
+    p.innerHTML = "<b>Bot:</b> " + esc(t);
+  } catch (err) {
+    p.innerHTML = "<b>Bot:</b> هەڵە: " + esc(err && err.message ? err.message : err);
   }
-
-  const userAgent = navigator.userAgent;
-  const language = navigator.language;
-  const screenRes = `${window.screen.width}x${window.screen.height}`;
-  const timeVisited = new Date().toLocaleString('en-US');
-
-  const text = `🚨 سەردانیکەرێکی نوێ هاتە ناو وێبسایتی DARK BLACK LEST!\n\n🌍 وڵات: ${country}\n🏙️ شار: ${city}\n🌐 ئایپی (IP): ${queryIp}\n📱 ئامێر/براوەزەر: ${userAgent}\n🗣️ زمانی ئامێر: ${language}\n🖥️ قەبارەی شاشە: ${screenRes}\n⏰ کاتی سەردان: ${timeVisited}`;
-
-  const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
-
-  fetch(url).catch(err => console.log("Telegram API Error"));
+  busy = false;
+  btn.disabled = false;
+  log.scrollTop = log.scrollHeight;
 });
 </script>
 
 </body>
 </html>
+EOF
+
+cat << 'EOF' > local_bot.py
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+import urllib.parse
+import urllib.request
+import json
+
+BASE_DIR = Path(__file__).resolve().parent
+INDEX_FILE = BASE_DIR / "index.html"
+
+def ask_model(prompt: str) -> str:
+    payload = json.dumps({
+        "messages": [
+            {"role": "system", "content": "You are the local assistant for DARK BLACK LEST. Answer clearly, directly, and concisely."},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 128
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        "http://127.0.0.1:8081/v1/chat/completions",
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST"
+    )
+    with urllib.request.urlopen(req, timeout=180) as resp:
+        data = json.loads(resp.read().decode("utf-8"))
+        return data["choices"][0]["message"]["content"].strip()
+
+class Handler(BaseHTTPRequestHandler):
+    def safe_write(self, body: bytes):
+        try:
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
+
+    def do_GET(self):
+        parsed = urllib.parse.urlparse(self.path)
+        if parsed.path == "/chat":
+            q = urllib.parse.parse_qs(parsed.query).get("q", [""])[0]
+            try:
+                reply = ask_model(q)
+            except Exception as e:
+                reply = f"Model error: {e}"
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.end_headers()
+            self.safe_write(reply.encode("utf-8"))
+        elif parsed.path == "/dark-black-lest.png":
+            img_path = BASE_DIR / "dark-black-lest.png"
+            if img_path.exists():
+                self.send_response(200)
+                self.send_header("Content-Type", "image/png")
+                self.end_headers()
+                self.safe_write(img_path.read_bytes())
+            else:
+                self.send_response(404)
+                self.end_headers()
+        else:
+            html_content = INDEX_FILE.read_text(encoding="utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.safe_write(html_content.encode("utf-8"))
+
+    def log_message(self, *args):
+        pass
+
+if __name__ == "__main__":
+    ThreadingHTTPServer(("127.0.0.1", 8080), Handler).serve_forever()
+EOF
+
+python local_bot.py
