@@ -1,5 +1,15 @@
 pkill -f "local_bot.py" || true
-mkdir -p ~/last_hope_test && cd ~/last_hope_test
+pkill -f "llama-server" || true
+mkdir -p ~/dark_bot_site && cd ~/dark_bot_site
+
+~/ai_bot/llama.cpp/build/bin/llama-server \
+  -m ~/ai_bot/models/qwen2.5-1.5b-instruct-q4_k_m.gguf \
+  --host 127.0.0.1 \
+  --port 8081 \
+  -c 512 \
+  -t 4 > ~/ai_bot/server.log 2>&1 &
+
+sleep 4
 
 cat << 'EOF' > index.html
 <!DOCTYPE html>
@@ -7,514 +17,310 @@ cat << 'EOF' > index.html
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DARK BLACK LEST | CYBER LAB</title>
-
+<title>DARK BLACK LEST | INDEPENDENT AI</title>
 <style>
 * {
   box-sizing: border-box;
-  transition: all 0.3s ease;
 }
-
 body {
   margin: 0;
   background: #030504;
-  color: #e0e0e0;
-  font-family: Arial, sans-serif;
-  text-align: center;
+  color: #e6f2ec;
+  font-family: Tahoma, Arial, sans-serif;
 }
-
-.welcome {
-  padding: 18px 10px;
-  color: #00ff75;
-  background: #050706;
+.topbar {
+  background: #050806;
   border-bottom: 2px solid #00ff75;
-  font-size: 19px;
+  padding: 16px;
+  text-align: center;
+  color: #00ff75;
   font-weight: bold;
   letter-spacing: 1px;
-  box-shadow: 0 0 15px rgba(0, 255, 117, 0.2);
+  box-shadow: 0 0 18px rgba(0, 255, 117, 0.22);
 }
-
-.hero img {
-  display: block;
-  width: 100%;
-  max-width: 1000px;
-  height: auto;
-  margin: auto;
-  border-bottom: 4px solid #8b0000;
-  box-shadow: 0 10px 30px rgba(139, 0, 0, 0.5);
+.hero {
+  text-align: center;
+  padding: 28px 16px 18px;
+  background: linear-gradient(180deg, #060a08 0%, #030504 100%);
+  border-bottom: 1px solid #133823;
 }
-
-header {
-  padding: 40px 15px;
-  background: #050706;
-  border-bottom: 2px solid #164d2b;
-}
-
-h1 {
+.hero h1 {
+  margin: 0;
   direction: ltr;
-  color: #a00000;
-  font-size: clamp(32px, 8vw, 56px);
-  text-shadow: 0 0 25px rgba(139, 0, 0, 0.8), 0 0 10px #000;
-  margin: 10px 0;
+  color: #b30000;
+  font-size: clamp(30px, 7vw, 52px);
   font-weight: 900;
+  text-shadow: 0 0 22px rgba(179, 0, 0, 0.75);
 }
-
-.subtitle {
-  color: #00ff75;
+.hero .sub {
+  margin-top: 8px;
   direction: ltr;
-  letter-spacing: 4px;
-  font-size: 20px;
+  color: #00ff75;
+  letter-spacing: 3px;
   font-weight: bold;
-  text-shadow: 0 0 10px rgba(0, 255, 117, 0.4);
+  font-size: 16px;
 }
-
-.tagline {
-  color: #ffffff;
-  font-size: 18px;
-  margin-top: 20px;
-  letter-spacing: 1px;
-}
-
-.container {
-  max-width: 950px;
-  padding: 25px;
-  margin: auto;
-}
-
-h2 {
-  color: #00ff75;
-  text-shadow: 0 0 10px rgba(0, 255, 117, 0.3);
-}
-
-.intro {
-  color: #d0d0d0;
-  line-height: 2.2;
-  font-size: 17px;
-}
-
-.lessons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  margin: 30px 0;
-}
-
-.card {
-  background: #070a08;
-  border: 1px solid #113322;
-  border-top: 4px solid #8b0000;
-  border-radius: 12px;
-  padding: 22px;
-  text-align: right;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  border-color: #00ff75;
-  box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
-}
-
-.card h3 {
-  color: #00ff75;
-  margin-top: 0;
-}
-
-.card p {
-  color: #cccccc;
+.hero p {
+  color: #c8d6cf;
+  margin: 12px auto 0;
+  max-width: 680px;
   line-height: 1.8;
 }
-
-.rules {
-  text-align: right;
-  line-height: 2.4;
-  background: #070a08;
-  border: 1px solid #113322;
-  border-right: 5px solid #00ff75;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+.wrap {
+  max-width: 860px;
+  margin: 22px auto;
+  padding: 0 14px 36px;
 }
-
-.bot-panel {
-  text-align: right;
-  background: #070a08;
-  border: 1px solid #113322;
+.panel {
+  background: #070b09;
+  border: 1px solid #143d26;
   border-top: 4px solid #00ff75;
   border-radius: 12px;
-  padding: 22px;
-  margin: 35px 0;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+  padding: 18px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.75);
 }
-
-#chatLog {
-  background: #030504;
-  border: 1px solid #164d2b;
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.panel-title {
+  margin: 0;
+  color: #00ff75;
+  font-size: 20px;
+}
+.badge {
+  background: #0b1911;
+  color: #00ff75;
+  border: 1px solid #00ff75;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.chip {
+  background: #0c120f;
+  color: #d6e4dd;
+  border: 1px solid #1d4d32;
+  padding: 7px 12px;
   border-radius: 8px;
-  height: 280px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.chip:hover {
+  border-color: #00ff75;
+  color: #00ff75;
+}
+#log {
+  background: #030504;
+  border: 1px solid #123622;
+  border-radius: 10px;
+  height: 360px;
   overflow-y: auto;
   padding: 14px;
   margin-bottom: 12px;
-  line-height: 1.8;
+  line-height: 1.85;
 }
-
+.msg {
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.msg.user {
+  background: #140606;
+  border-right: 4px solid #a00000;
+  color: #ffd6d6;
+}
+.msg.bot {
+  background: #06120b;
+  border-right: 4px solid #00ff75;
+  color: #e6fff0;
+}
 #chatForm {
   display: flex;
   gap: 8px;
 }
-
-#chatInput {
+#promptInput {
   flex: 1;
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #164d2b;
-  background: #050706;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #19472d;
+  background: #040705;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 15px;
+  outline: none;
 }
-
-.button {
-  display: inline-block;
-  padding: 14px 26px;
-  margin: 10px 8px;
-  border-radius: 6px;
-  background: #8b0000;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
+#promptInput:focus {
+  border-color: #00ff75;
+}
+.btn-send {
+  padding: 12px 20px;
   border: none;
-  cursor: pointer;
-  box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
-}
-
-.button:hover {
-  background: #a00000;
-  box-shadow: 0 0 25px rgba(139, 0, 0, 0.9);
-}
-
-.button.green {
+  border-radius: 8px;
   background: #00ff75;
   color: #030504;
-  box-shadow: 0 0 15px rgba(0, 255, 117, 0.3);
+  font-weight: bold;
+  cursor: pointer;
 }
-
-.button.green:hover {
-  background: #00cc5f;
-  box-shadow: 0 0 25px rgba(0, 255, 117, 0.7);
+.btn-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
-
-footer {
-  border-top: 2px solid #00ff75;
-  padding: 30px 10px;
-  color: #aaaaaa;
-  line-height: 2.2;
-  background: #030504;
-}
-
-footer span {
-  color: #00ff75;
-  text-shadow: 0 0 8px rgba(0, 255, 117, 0.4);
+.btn-red {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #8b0000;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
 }
 </style>
 </head>
-
 <body>
 
-<div class="welcome">
-  تاقیگەی ئاسایشی دیجیتاڵی | DARK BLACK LEST
-</div>
+<div class="topbar">DARK BLACK LEST | STANDALONE LOCAL AI</div>
 
-<div class="hero">
-  <img src="dark-black-lest.png" alt="DARK BLACK LEST">
-</div>
-
-<header>
-<h1 id="top"><a href="#top" style="color:#a00000; text-decoration:none;">DARK BLACK LEST</a></h1>
-  <div class="subtitle">CYBER LAB ONLINE</div>
-  <p class="tagline">بیرکردنەوەی تاریک. کۆدکردنی زیرەک.</p>
-
-  <p class="intro">
-   بەخێربێن بۆ تاقیگەی سایبەر سیکیوریتی DARK BLACK LEST
-    <br>
-    فێربوون، پاراستن و هاکینگی ئەخلاقی.
-  </p>
-
-  <a class="button" href="#lessons">بینینی وانەکان</a>
-  <a class="button green" href="#rules">یاساکانی پاراستن</a>
-  <a class="button" href="#local-bot">بۆتی سەربەخۆ</a>
+<header class="hero">
+  <h1>DARK BLACK LEST</h1>
+  <div class="sub">LOCAL CYBER CORE</div>
+  <p>بۆتی زیرەکی سەربەخۆ و ناوخۆیی لەسەر ئامێرەکەی خۆت بەبێ پەیوەندی دەرەکی.</p>
 </header>
 
-<main class="container">
+<main class="wrap">
+  <section class="panel">
+    <div class="panel-head">
+      <h2 class="panel-title">چاتی ڕاستەوخۆی بۆت</h2>
+      <span class="badge" id="statusBadge">OFFLINE AI • 127.0.0.1</span>
+    </div>
 
-  <section id="local-bot" class="bot-panel">
-    <h2 style="margin-top:0;">🤖 بۆتی سەربەخۆی ناوخۆیی | DARK BLACK LEST</h2>
-    <div id="chatLog"></div>
+    <div class="controls">
+      <button type="button" class="chip" onclick="setMode('کورت و ڕاستەوخۆ وەڵام بدەرەوە بە کوردی.')">کورت و خێرا</button>
+      <button type="button" class="chip" onclick="setMode('بە وردی و تەکنیکی وەڵام بدەرەوە بە کوردی.')">ورد و تەکنیکی</button>
+      <button type="button" class="chip" onclick="clearChat()">پاککردنەوەی چات</button>
+    </div>
+
+    <div id="log">
+      <div class="msg bot"><b>Bot:</b> سڵاو! بۆتی ناوخۆیی DARK BLACK LEST ئامادەیە. پرسیارەکەت بنووسە.</div>
+    </div>
+
     <form id="chatForm">
-      <input id="chatInput" type="text" placeholder="پرسیارەکەت بنووسە..." required>
-      <button id="sendBtn" type="submit" class="button green" style="margin:0;">Send</button>
+      <input id="promptInput" type="text" placeholder="پرسیار یان فەرمانەکەت بنووسە..." autocomplete="off" required>
+      <button id="sendBtn" class="btn-send" type="submit">ناردن</button>
+      <button id="stopBtn" class="btn-red" type="button" onclick="stopStream()">وەستان</button>
     </form>
   </section>
-
-  <section id="lessons">
-    <h2>ڕێگای فێربوون | وانە سەرەکییەکان</h2>
-
-    <div class="lessons">
-
-      <div class="card">
-        <h3>وانەی ٠١</h3>
-        <h3>پاراستنی وشەی نهێنی</h3>
-        <p>فێربە چۆن وشەی نهێنیی بەهێز دروست بکەیت و هەژمارەکانت لە هێرشی توندوتیژ بپارێزیت.</p>
-      </div>
-
-      <div class="card">
-        <h3>وانەی ٠٢</h3>
-        <h3>پاراستنی تۆڕەکان</h3>
-        <p>بنەماکانی تۆڕ و ڕێگاکانی پاراستنی پەیوەندی و ئامێرەکان لە گوێگرتنی نەخوازراو فێربە.</p>
-      </div>
-
-      <div class="card">
-        <h3>وانەی ٠٣</h3>
-        <h3>هاکینگی ئەخلاقی</h3>
-        <p>تەنها لە سیستەمەکانی خۆت یان ئەوانەی مۆڵەتی ڕەسمیان هەیە، پشکنین ئەنجام بدە.</p>
-      </div>
-
-      <div class="card">
-        <h3>وانەی ٠٤</h3>
-        <h3>پاراستنی تایبەتمەندی</h3>
-        <p>فێربە چۆن زانیاریی کەسی و ئامێرەکەت لە داوەری و هەڵخەڵەتاندن بپارێزیت.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <section style="margin: 40px 0; text-align: right;">
-
-    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
-        🛡️ سایبەر سیکیوریتی چییە؟
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        سایبەر سیکیوریتی بریتییە لە کۆمەڵێک ئامراز، ڕێکار و تەکنەلۆژیا کە بەکاردێن بۆ پاراستنی سیستەمەکان، تۆڕەکان، بەرنامەکان و زانیارییەکان لە هێرشی دیجیتاڵی. ئامانجی سەرەکی پاراستنی نهێنی، دروستی داتا و بەردەستبوونی خزمەتگوزارییەکانە.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
-        💻 هاکینگی ئەخلاقی چییە؟
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        هاکەرانی ئەخلاقی کەسانی پسپۆڕی ئاسایشن کە بە مۆڵەتی فەرمی هەوڵی دۆزینەوەی کەلێنە ئەمنییەکان لە سیستەمەکاندا دەدەن. ئەوان بە هەمان تەکنیکی هاکەرە خراپەکارەکان کار دەکەن، بەڵام ئامانجیان چاککردنی کەلێنەکان و پاراستنی سیستەمەکانە پێش دەستدرێژی.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
-        🔒 ٥ ڕێگای گرنگ بۆ خۆپاراستن
-      </h2>
-      <ul style="line-height: 2; font-size: 16px; padding-right: 20px; color: #e0e0e0;">
-        <li><strong style="color: #a00000;">وشەی نهێنیی ئاڵۆز:</strong> بەکارهێنانی پیت، ژمارە و هێمای تێکەڵ، دوورکەوتنەوە لە زانیاریی کەسی.</li>
-        <li><strong style="color: #a00000;">پشتڕاستکردنەوەی دووقۆناغی:</strong> چالاککردنی پاراستنی زیادە بۆ هەموو هەژمارەکانت.</li>
-        <li><strong style="color: #a00000;">نوێکردنەوەی بەردەوام:</strong> هەمیشە نوێکردنەوەی سیستەم و ئەپڵیکەیشنەکانت بۆ داخستنی دەرگا کراوەکان.</li>
-        <li><strong style="color: #a00000;">وریایی لە لینکە گوماناوییەکان:</strong> نەکرتن لەسەر ئەو پەیام و لینکانەی لە سەرچاوەی نەناسراوەوە دێن.</li>
-        <li><strong style="color: #a00000;">بەکارهێنانی ڤی پی ئێن (VPN):</strong> خۆپاراستن لە کاتی بەکارهێنانی تۆڕی گشتی و نەپارێزراو.</li>
-      </ul>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
-        ☣️ ئەندازیاری کۆمەڵایەتی
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        مەترسیدارترین لاوازی لە هیچ سیستەمێکدا نییە، بەڵکو لە ڕەفتار و سۆزی مرۆڤدایە! هاکەران تەڵەی دەروونی بەکاردێنن بۆ دەستکەوتنی زانیاری بەبێ نووسینی یەک دێڕ کۆد.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
-        🔍 شیکاریی فایلە مەترسیدارەکان
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        شارەزایی لە ناسینەوەی جۆرەکانی مەڵوێر و بەرنامە زیانبەخشەکان:
-        <br>
-        • <strong>ڕانسۆمۆێر:</strong> قفڵکردنی داتاکان و داوای پارە لە بەرامبەر گەڕاندنەوەیان.
-        <br>
-        • <strong>کیلۆگەر:</strong> تۆمارکردنی هەموو ئەو پیتانەی لەسەر کیبۆرد دەینوسیت.
-        <br>
-        • <strong>ترۆجان:</strong> بەرنامەی زیانبەخش کە خۆی لە شێوەی بەرنامەیەکی ئاساییدا دەشارێتەوە.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
-        🌐 کەلێنەکانی ماڵپەڕ
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        دۆزینەوە و چارەسەرکردنی هەڵە ئەمنییەکان لەناو ماڵپەڕەکاندا:
-        <br>
-        • <strong>دەستکاری بنکەی زانیاری (SQLi):</strong> دزەکردنە ناو داتاستان لە ڕێگەی خانەی داخڵکردنی نادروست.
-        <br>
-        • <strong>تێپەڕاندنی کۆد لە براوەزەردا (XSS):</strong> خستنەناوەوەی کۆدی زیانبەخش بۆ ناو پەڕەی بەکارهێنەران.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
-        📡 ١. سیخوڕیی دیجیتاڵی و کۆکردنەوەی زانیاری (OSINT)
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        پێش هەر هەنگاوێک، هاکەر زانیاریی کراوە لەسەر ئامانجەکەی کۆدەکاتەوە:
-        <br>
-        • <strong>گەڕانی پێشکەوتووی گۆگڵ:</strong> دۆزینەوەی فایل و زانیارییە شاراوەکان لە ڕێگەی کلیلەپۆشراوەکانەوە.
-        <br>
-        • <strong>دۆزینەوەی لاپەڕە لاوەکییەکان:</strong> ئاشکراکردنی هەموو خزمەتگوزاری و بەشە شاراوەکانی سێرڤەر.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
-        📶 ٢. ئاسایشی تۆڕە بێتەلەکان و وایفای
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        تاقیکردنەوەی بەرگریی تۆڕەکانی وایفای بەرامبەر دەستدرێژی:
-        <br>
-        • <strong>گرتنی پەیوەندی و پاکێتەکان:</strong> چاودێریکردنی هاتوچۆی تۆڕ و هەوڵدان بۆ شکاندنی کلیلەکان.
-        <br>
-        • <strong>تۆڕی دەستکرد (Evil Twin):</strong> دروستکردنی وایفای درۆیین بۆ کۆکردنەوەی پسوۆرد بە شێوازێکی تەکنیکی.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
-        🧬 ٣. هەڵوەشاندنەوە و شیکارکردنی کۆد (Reverse Engineering)
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        گۆڕینی بەرنامە جێبەجێکارەکان بۆ کۆدی سەرەتایی بە مەبەستی تێگەیشتن لە چۆنیەتی کارکردنیان و دۆزینەوەی کەلێن.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
-        ☁️ ٤. ئاسایشی سێرڤەر و هەور (Cloud & System Hardening)
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        بەهێزکردنی ژینگەی کارکردن، داخستنی دەرگا نادیارەکان و ڕێگریکردن لە بەرزبوونەوەی نادروستی دەسەڵاتی بەکارهێنەران.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
-        📱 ٥. ئاسایشی مۆبایل و ئەپڵیکەیشنەکان
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        شیکارکردنی ئەپی ئەندرۆید و ئایۆس بۆ دۆزینەوەی داتای هەستیاری شاراوە و تێپەڕاندنی ڕێگرییە ناوخۆییەکانی سەکۆکان.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
-        ⚙️ ٦. ئاسایشی پۆلێنکراوی API
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        پشکنینی دەروازەکانی پەیوەندی لە نێوان سێرڤەر و بەرنامەکاندا بۆ ڕێگریکردن لە دزەکردنی ناسنامە و زانیاریی تایبەت.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
-        🔐 ٧. رەمزسازی و شکاوندنی هاشەکان
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        تێگەیشتن لە چۆنیەتی کۆدکردنی داتا و بەکارهێنانی هێزی گرافیک بۆ تاقیکردنەوەی پۆلێنکردنی وشە نهێنییەکان.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
-        🕵️‍♂️ ٨. لێکۆڵینەوەی تاوانی دیجیتاڵی (DFIR)
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        کۆکردنەوە و شیکارکردنی بەڵگەی دیجیتاڵی لە کاتی هێرشدا بۆ زانینی چۆنیەتی دزەکردن و دەستکاریکردنی سیستەمەکە.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #113322; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #00ff75; margin-top: 0; font-size: 24px; border-bottom: 1px solid #8b0000; padding-bottom: 10px;">
-        🌪️ ٩. بەڕێوەبردنی کارەساتی دیجیتاڵی و پشتیوانی
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        دانانی پلانی گەڕاندنەوە و دروستکردنی کۆپی یەدەگی پارێزراو بۆ گەڕاندنەوەی خێرای کارەکان لە کاتی پەککەوتندا.
-      </p>
-    </div>
-
-    <div style="background: #070a08; border: 1px solid #8b0000; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-      <h2 style="color: #a00000; margin-top: 0; font-size: 24px; border-bottom: 1px solid #00ff75; padding-bottom: 10px;">
-        ⚖️ ١٠. یاسا و پێوەرە نێودەوڵەتییەکانی ئاسایش
-      </h2>
-      <p style="line-height: 1.8; font-size: 16px; color: #e0e0e0;">
-        ئاشنابوون بە ڕێسا جیهانییەکانی پاراستنی زانیاری و دروستکردنی سیستەمی بەڕێوەبردنی ئاسایشی زانیاری بۆ دامەزراوەکان.
-      </p>
-    </div>
-
-  </section>
-
-  <section id="rules">
-    <h2>یاساکانی پاراستن</h2>
-
-    <div class="rules">
-      <p>🟢 وشەی نهێنیی بەهێز و جیاواز بەکاربهێنە.</p>
-      <p>🟢 پاراستنی دوو هەنگاوی چالاک بکە.</p>
-      <p>🟢 لە لینک و فایلە گومانلێکراوەکان ئاگادار بە.</p>
-      <p>🟢 مۆبایل و بەرنامەکانت نوێ بکەرەوە.</p>
-      <p>🔴 بێ مۆڵەت هیچ سیستەمێک تاقی مەکەرەوە.</p>
-    </div>
-  </section>
-
 </main>
 
-<footer>
-  <span>بایەخ بە هۆشیاری و ئاسایش بدە.</span>
-  <br>
-  DARK BLACK LEST | فێربە بە ئەخلاق، بپارێزە بە زانست.
-  <br>
-  © 2026 DARK BLACK LEST
-</footer>
-
 <script>
-var busy = false;
-function esc(s) {
-  return String(s).replace(/[&<>"']/g, function(m) {
-    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m];
-  });
+let systemStyle = "کورت، ڕوون و ڕاستەوخۆ وەڵام بدەرەوە بە کوردی.";
+let controller = null;
+let busy = false;
+
+function setMode(modeText) {
+  systemStyle = modeText;
+  const badge = document.getElementById("statusBadge");
+  badge.textContent = modeText.includes("کورت") ? "MODE: FAST SHORT" : "MODE: DETAILED";
 }
+
+function clearChat() {
+  document.getElementById("log").innerHTML =
+    '<div class="msg bot"><b>Bot:</b> چات پاککرایەوە. پرسیارێکی نوێ بنووسە.</div>';
+}
+
+function addMessage(role, text) {
+  const log = document.getElementById("log");
+  const div = document.createElement("div");
+  div.className = "msg " + role;
+  const b = document.createElement("b");
+  b.textContent = role === "user" ? "You: " : "Bot: ";
+  const span = document.createElement("span");
+  span.textContent = text;
+  div.appendChild(b);
+  div.appendChild(span);
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+  return span;
+}
+
+function stopStream() {
+  if (controller) {
+    controller.abort();
+    controller = null;
+  }
+  busy = false;
+  document.getElementById("sendBtn").disabled = false;
+}
+
 document.getElementById("chatForm").addEventListener("submit", async function(e) {
   e.preventDefault();
   if (busy) return;
-  var inp = document.getElementById("chatInput");
-  var btn = document.getElementById("sendBtn");
-  var log = document.getElementById("chatLog");
-  var txt = inp.value.trim();
-  if (!txt) return;
+
+  const input = document.getElementById("promptInput");
+  const sendBtn = document.getElementById("sendBtn");
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = "";
+  addMessage("user", text);
+  const botSpan = addMessage("bot", "بیر دەکاتەوە...");
+
   busy = true;
-  btn.disabled = true;
-  log.innerHTML += "<p><b>You:</b> " + esc(txt) + "</p>";
-  inp.value = "";
-  var p = document.createElement("p");
-  p.innerHTML = "<i>Bot: بیر دەکاتەوە...</i>";
-  log.appendChild(p);
-  log.scrollTop = log.scrollHeight;
+  sendBtn.disabled = true;
+  controller = new AbortController();
+
   try {
-    var r = await fetch("/chat?q=" + encodeURIComponent(txt));
-    var t = await r.text();
-    p.innerHTML = "<b>Bot:</b> " + esc(t);
+    const res = await fetch("/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: text, style: systemStyle }),
+      signal: controller.signal
+    });
+
+    if (!res.ok || !res.body) {
+      throw new Error("HTTP " + res.status);
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder("utf-8");
+    let fullText = "";
+    botSpan.textContent = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      fullText += decoder.decode(value, { stream: true });
+      botSpan.textContent = fullText;
+      const log = document.getElementById("log");
+      log.scrollTop = log.scrollHeight;
+    }
+
+    if (!fullText.trim()) {
+      botSpan.textContent = "هیچ وەڵامێک نەهاتەوە.";
+    }
   } catch (err) {
-    p.innerHTML = "<b>Bot:</b> هەڵە: " + esc(err && err.message ? err.message : err);
+    if (err.name === "AbortError") {
+      botSpan.textContent += " [وەستێنرا]";
+    } else {
+      botSpan.textContent = "هەڵەی پەیوەندی لەگەڵ مۆدێل: " + (err.message || err);
+    }
+  } finally {
+    busy = false;
+    sendBtn.disabled = false;
+    controller = null;
   }
-  busy = false;
-  btn.disabled = false;
-  log.scrollTop = log.scrollHeight;
 });
 </script>
-
 </body>
 </html>
 EOF
@@ -522,73 +328,9 @@ EOF
 cat << 'EOF' > local_bot.py
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-import urllib.parse
 import urllib.request
 import json
 
 BASE_DIR = Path(__file__).resolve().parent
-INDEX_FILE = BASE_DIR / "index.html"
-
-def ask_model(prompt: str) -> str:
-    payload = json.dumps({
-        "messages": [
-            {"role": "system", "content": "You are the local assistant for DARK BLACK LEST. Answer clearly, directly, and concisely."},
-            {"role": "user", "content": prompt}
-        ],
-        "temperature": 0.7,
-        "max_tokens": 128
-    }).encode("utf-8")
-    req = urllib.request.Request(
-        "http://127.0.0.1:8081/v1/chat/completions",
-        data=payload,
-        headers={"Content-Type": "application/json"},
-        method="POST"
-    )
-    with urllib.request.urlopen(req, timeout=180) as resp:
-        data = json.loads(resp.read().decode("utf-8"))
-        return data["choices"][0]["message"]["content"].strip()
-
-class Handler(BaseHTTPRequestHandler):
-    def safe_write(self, body: bytes):
-        try:
-            self.wfile.write(body)
-        except (BrokenPipeError, ConnectionResetError):
-            pass
-
-    def do_GET(self):
-        parsed = urllib.parse.urlparse(self.path)
-        if parsed.path == "/chat":
-            q = urllib.parse.parse_qs(parsed.query).get("q", [""])[0]
-            try:
-                reply = ask_model(q)
-            except Exception as e:
-                reply = f"Model error: {e}"
-            self.send_response(200)
-            self.send_header("Content-Type", "text/plain; charset=utf-8")
-            self.end_headers()
-            self.safe_write(reply.encode("utf-8"))
-        elif parsed.path == "/dark-black-lest.png":
-            img_path = BASE_DIR / "dark-black-lest.png"
-            if img_path.exists():
-                self.send_response(200)
-                self.send_header("Content-Type", "image/png")
-                self.end_headers()
-                self.safe_write(img_path.read_bytes())
-            else:
-                self.send_response(404)
-                self.end_headers()
-        else:
-            html_content = INDEX_FILE.read_text(encoding="utf-8")
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
-            self.end_headers()
-            self.safe_write(html_content.encode("utf-8"))
-
-    def log_message(self, *args):
-        pass
-
-if __name__ == "__main__":
-    ThreadingHTTPServer(("127.0.0.1", 8080), Handler).serve_forever()
-EOF
-
-python local_bot.py
+INDEX_PATH = BASE_DIR / "index.html"
+MODEL_URL = "
