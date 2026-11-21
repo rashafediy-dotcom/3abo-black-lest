@@ -1,1 +1,247 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بۆتی سەربەخۆ</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #090d12;
+      color: #e6edf3;
+      font-family: Tahoma, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+    }
+    .app {
+      width: 100%;
+      max-width: 660px;
+      background: #101720;
+      border: 1px solid #223042;
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: #14291e;
+      color: #3fb950;
+      border: 1px solid #238636;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+    .modes button {
+      background: #18222f;
+      color: #c9d1d9;
+      border: 1px solid #2c3d52;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .modes button.active {
+      background: #1f6feb;
+      color: #fff;
+      border-color: #388bfd;
+    }
+    .chat {
+      height: 380px;
+      overflow-y: auto;
+      background: #0b1017;
+      border: 1px solid #1e2a3a;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .msg {
+      padding: 10px 12px;
+      border-radius: 10px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+    .user {
+      background: #172a45;
+      align-self: flex-start;
+      max-width: 88%;
+    }
+    .bot {
+      background: #14221d;
+      border: 1px solid #203b32;
+      align-self: stretch;
+    }
+    .row { display: flex; gap: 8px; }
+    input {
+      flex: 1;
+      background: #0b1017;
+      color: #fff;
+      border: 1px solid #2c3d52;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+    .send {
+      background: #238636;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0 18px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .clear {
+      background: #21262d;
+      color: #f85149;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 0 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="top">
+      <div>
+        <strong>بۆتی سەربەخۆ لە ناو index.html</strong>
+        <span class="badge">Standalone</span>
+      </div>
+      <div class="modes">
+        <button id="mFast" onclick="setMode('fast')">خێرا</button>
+        <button id="mDet" class="active" onclick="setMode('detailed')">ورد</button>
+      </div>
+    </div>
 
+    <div id="chat" class="chat">
+      <div class="msg bot">سڵاو! ئەم بۆتە بە تەواوی لە ناو index.html کار دەکات. دەتوانیت حیسابات (وەک 15 * 6)، یادداشت (یادداشت: ... / یادداشتەکان)، کات، کۆد یان هەر دەقێک بنووسیت.</div>
+    </div>
+
+    <div class="row">
+      <input id="inp" type="text" placeholder="لێرە بنووسە..." onkeydown="if(event.key==='Enter') sendMsg()">
+      <button class="send" onclick="sendMsg()">ناردن</button>
+      <button class="clear" onclick="clearChat()">پاککردنەوە</button>
+    </div>
+  </div>
+
+  <script>
+    let mode = "detailed";
+    const STORAGE_KEY = "standalone_index_bot_v1";
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return { notes: [], count: 0 };
+    }
+
+    function saveState(st) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(st));
+      } catch (e) {}
+    }
+
+    function setMode(m) {
+      mode = m;
+      document.getElementById("mFast").classList.toggle("active", m === "fast");
+      document.getElementById("mDet").classList.toggle("active", m === "detailed");
+    }
+
+    function addMsg(cls, text) {
+      const chat = document.getElementById("chat");
+      const d = document.createElement("div");
+      d.className = "msg " + cls;
+      d.textContent = text;
+      chat.appendChild(d);
+      chat.scrollTop = chat.scrollHeight;
+      return d;
+    }
+
+    function clearChat() {
+      document.getElementById("chat").innerHTML = '<div class="msg bot">چات پاککرایەوە.</div>';
+    }
+
+    function tryMath(expr) {
+      const cleaned = expr.replace(/×/g, "*").replace(/÷/g, "/").replace(/\^/g, "**").trim();
+      if (!/\d/.test(cleaned)) return null;
+      if (!/^[0-9+\-*/().%\s*]+$/.test(cleaned)) return null;
+      try {
+        const res = Function('"use strict"; return (' + cleaned + ')')();
+        if (typeof res === "number" && Number.isFinite(res)) return res;
+      } catch (e) {}
+      return null;
+    }
+
+    function localBotEngine(prompt, currentMode) {
+      const q = prompt.trim();
+      if (!q) return "تکایە شتێک بنووسە.";
+
+      const st = loadState();
+      st.count += 1;
+      const low = q.toLowerCase();
+
+      if (q.startsWith("یادداشت:") || q.startsWith("نۆت:")) {
+        const note = q.split(":").slice(1).join(":").trim();
+        if (!note) {
+          saveState(st);
+          return "تکایە دوای «یادداشت:» دەقەکەت بنووسە.";
+        }
+        st.notes.push(note);
+        saveState(st);
+        return `یادداشت پاشەکەوت کرا: «${note}» (ژمارەی یادداشتەکان: ${st.notes.length})`;
+      }
+
+      if (["یادداشتەکان", "notes", "لیستی یادداشت"].includes(low)) {
+        saveState(st);
+        if (!st.notes.length) return "هیچ یادداشتێک پاشەکەوت نەکراوە.";
+        return "یادداشتەکان:\n" + st.notes.map((n, i) => `${i + 1}.${n}`).join("\n");
+      }
+
+      saveState(st);
+
+      if (["کات", "کات چەندە", "کاتژمێر", "بەروار", "date", "time"].some(k => low.includes(k))) {
+        return "کات و بەرواری ئێستا: " + new Date().toLocaleString();
+      }
+
+      const mathVal = tryMath(q);
+      if (mathVal !== null) {
+        return `ئەنجامی «${q}» = ${mathVal}`;
+      }
+
+      if (["سڵاو", "چۆنی", "hi", "hello", "hey", "کێیت"].some(k => low.includes(k))) {
+        if (currentMode === "fast") {
+          return "سڵاو! بۆتە سەربەخۆکەی ناو index.html چالاکە.";
+        }
+        return (
+          "سڵاو! ئەم بۆتە بە تەواوی لە ناو index.html کار دەکات.\n" +
+          "• بۆ حیسابات: ژمارە و نیشانە بنووسە (وەک 120 / 4)\n" +
+          "• بۆ یادداشت: بنووسە «یادداشت: ...» یان «یادداشتەکان»\n" +
+          "• بۆ کات: بنووسە «کات چەندە»\n" +
+          "• بۆ کۆد: بنووسە «کۆدی html» یان «کۆدی python»"
+        );
+      }
+
+      if (["کۆد", "html", "python", "بایسۆن", "code"].some(k => low.includes(k))) {
+        if (low.includes("python") || low.includes("بایسۆن")) {
+          return "نمونەی کۆدی Python:\n\nfor i in range(1, 4):\n    print('ژمارە:', i)";
+        }
+        return "نمونەی کۆدی HTML:\n\n<button onclick=\"alert('سڵاو')\">کلیک بکە</button>";
+      }
+
+      const words = q.split(/\s+/).filter(Boolean);
+      if (currentMode === "fast") {
+        return `وەرگیرا: «${q}» (${words.length} وشە).`;
+      }
+      return (
+        `شیکاری ناوخ
